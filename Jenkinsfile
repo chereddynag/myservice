@@ -13,7 +13,7 @@ pipeline{
         GKE_ZONE = 'us-west1-a'
         HELM_CHART_DIR = "myservice"
         HELM_REPO_NAME = "devops"
-        HELM_REPO_URL = "oci://${GCR_REGION}/${GCR_PROJECT_ID}/helmrepo"
+        HELM_REPO_URL = "gs://helmrepo"
         DEPLOYMENT_NAME = "my-deployment"
         HELM_RELEASE_NAME = "Mysrevice"
 
@@ -48,7 +48,7 @@ pipeline{
             steps{
                 script{
                     sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
-                    sh 'helm push ${HELM_CHART_DIR}/target/*.tgz ${HELM_REPO_NAME}'
+                    sh 'gsutil cp ${env.JOB_NAME}/*.tgz ${HELM_REPO_URL}'
                 }
             }
         }
