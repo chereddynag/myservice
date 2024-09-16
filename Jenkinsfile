@@ -47,7 +47,7 @@ pipeline{
         stage("push helm charts"){
             steps{
                 script{
-                    sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
+                    // sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
                     sh 'gsutil cp ${env.JOB_NAME}/*.tgz ${HELM_REPO_URL}'
                 }
             }
