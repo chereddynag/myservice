@@ -29,14 +29,14 @@ pipeline{
             }
             
         }
-        stage("Creating Helm charts"){
-            steps{
-                script{
-                    sh 'helm create ${HELM_CHART_DIR}'
+        // stage("Creating Helm charts"){
+        //     steps{
+        //         script{
+        //             sh 'helm create ${HELM_CHART_DIR}'
 
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
         stage("Create helm package"){
             steps{
                 script{
