@@ -58,9 +58,10 @@ pipeline{
         stage('Installing the helm chart'){
             steps{
                 script{
-                    sh 'cd ${HELM_CHART_DIR}'
-                    // sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
-                    sh 'helm install --version ${DOCKER_IMAGE_TAG} helm-${HELM_CHART_DIR} -f  values.yaml *.tgz'
+                    sh '''cd ${HELM_CHART_DIR}
+                          helm install --version ${DOCKER_IMAGE_TAG} helm-${HELM_CHART_DIR} -f  values.yaml ${DOCKER_IMAGE_TAG}.tgz
+                       '''
+                    
                 }
             }
         }
@@ -68,7 +69,11 @@ pipeline{
             steps{
                 script{
                     // sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
-                    sh 'gsutil cp ${DOCKER_IAMGE_TAG}.tgz ${HELM_REPO_URL}'
+                    sh '''
+                        cd ${HELM_CHART_DIR}
+                        gsutil cp ${DOCKER_IMAGE_TAG}.tgz ${HELM_REPO_URL}
+                       '''
+                    
                 }
             }
         }
