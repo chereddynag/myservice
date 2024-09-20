@@ -18,12 +18,27 @@ pipeline{
         HELM_RELEASE_NAME = "Mysrevice"
 
     }
+       parameters {
+        choice(
+            name: 'DOCKER_IMAGE',
+            choices: getDockerImages(),
+            description: 'Select a Docker image from the list'
+        )
+    }
+    def getDockerImages(){
+        def images = sh(
+        script: "docker images --format '{{.Repository}}:{{.Tag}}' | grep latest",
+        returnStdout: true
+    ).trim().split('\n')
+    return images
+    }
     stages{
+        
         stage("Aauthenticate with GCP"){
             steps{
                 script{
                     sh 'gcloud config set project ${GCR_PROJECT_ID}'
-                    sh 'gcloud auth activate-service-account --key-file=/tmp/devops.json'
+                    sh 'gcloud auth activate-service-account --key-file=/opt/devops.json'
                     sh 'gcloud container clusters get-credentials ${GKE_CLUSTER} --zone ${GKE_ZONE} --project ${GCR_PROJECT_ID}'
                 }
             }
@@ -49,6 +64,13 @@ pipeline{
                 script{
                     // sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
                     sh 'gsutil cp ${env.JOB_NAME}/*.tgz ${HELM_REPO_URL}'
+                }
+            }
+        }
+        stage('Installing the helm chart'){
+            steps{
+                script{
+                    sh 'helm install '
                 }
             }
         }
