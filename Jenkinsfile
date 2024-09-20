@@ -6,14 +6,14 @@ pipeline{
     environment{
         IMAGE_NAME = "${env.JOB_NAME}"
         GCR_REGION = "us-west1-docker.pkg.dev"
-        GCR_IMAGE_URI = "${GCR_REGION}/${GCR_PROJECT_ID}/chereddy/${env.JOB_NAME}:${env.BUILD_NUMBER}"
+        GCR_IMAGE_URI = "${GCR_REGION}/${PROJECT}/chereddy/${env.JOB_NAME}:${env.BUILD_NUMBER}"
         GOOGLE_APPLICATION_CREDENTIALS = credentials('mydevops')
-        GCR_PROJECT_ID = 'fluted-volt-428205-p7'
-        GKE_CLUSTER = 'my-k8-cluster'
+        // GCR_PROJECT_ID = 'fluted-volt-428205-p7'
+        // GKE_CLUSTER = 'my-k8-cluster'
         GKE_ZONE = 'us-west1-a'
         HELM_CHART_DIR = "myservice"
         HELM_REPO_NAME = "devops"
-        HELM_REPO_URL = "gs://helmrepo/myservice"
+        // HELM_REPO_URL = "gs://helmrepo/myservice"
         DEPLOYMENT_NAME = "my-deployment"
         HELM_RELEASE_NAME = "Mysrevice"
         DOCKER_IMAGE_TAG = 79
@@ -25,9 +25,9 @@ pipeline{
         stage("Aauthenticate with GCP"){
             steps{
                 script{
-                    sh 'gcloud config set project ${GCR_PROJECT_ID}'
+                    sh 'gcloud config set project ${PROJECT}'
                     sh 'gcloud auth activate-service-account --key-file=/opt/devops.json'
-                    sh 'gcloud container clusters get-credentials ${GKE_CLUSTER} --zone ${GKE_ZONE} --project ${GCR_PROJECT_ID}'
+                    sh 'gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${GKE_ZONE} --project ${PROJECT}'
                 }
             }
             
@@ -71,7 +71,7 @@ pipeline{
                     // sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
                     sh '''
                         cd ${HELM_CHART_DIR}
-                        gsutil cp ${DOCKER_IMAGE_TAG}.tgz ${HELM_REPO_URL}
+                        gsutil cp ${DOCKER_IMAGE_TAG}.tgz ${GCP_BUCKET}
                        '''
                     
                 }
