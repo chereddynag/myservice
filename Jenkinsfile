@@ -13,9 +13,10 @@ pipeline{
         GKE_ZONE = 'us-west1-a'
         HELM_CHART_DIR = "myservice"
         HELM_REPO_NAME = "devops"
-        HELM_REPO_URL = "gs://helmrepo"
+        HELM_REPO_URL = "gs://helmrepo/myservice"
         DEPLOYMENT_NAME = "my-deployment"
         HELM_RELEASE_NAME = "Mysrevice"
+        DOCKER_IMAGE_TAG = 74
 
     }
        
@@ -42,7 +43,23 @@ pipeline{
         stage("Create helm package"){
             steps{
                 script{
-                    sh 'helm package ${HELM_CHART_DIR}'
+                    sh '''
+                    rm -rf *.tgz
+                    cd ${HELM_CHART_DIR}
+                    sed -i "s/TAG/$DOCKER_IMAGE_TAG/g" values.yaml
+                    helm package .
+                    mv *.tgz $DOCKER_IAMGE_TAG.tgz
+                    '''
+                    
+                }
+            }
+        }
+        stage('Installing the helm chart'){
+            steps{
+                script{
+                    sh 'cd ${HELM_CHART_DIR}'
+                    sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
+                    sh 'helm install --version $DOCKER_IMAGE_TAG -f  values.taml $DOCKER_IAMGE_TAG.tgz'
                 }
             }
         }
@@ -50,16 +67,10 @@ pipeline{
             steps{
                 script{
                     // sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
-                    sh 'gsutil cp ${env.JOB_NAME}/*.tgz ${HELM_REPO_URL}'
+                    sh 'gsutil cp $DOCKER_IAMGE_TAG.tgz ${HELM_REPO_URL}'
                 }
             }
         }
-        stage('Installing the helm chart'){
-            steps{
-                script{
-                    sh 'helm install '
-                }
-            }
-        }
+        
     }
 }

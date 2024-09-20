@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: us-west1-docker.pkg.dev/fluted-volt-428205-p7/chereddy/myservice
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "<tag>"
+  tag: TAG
 
 service:
   type: LoadBalancer
