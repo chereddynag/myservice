@@ -16,7 +16,7 @@ pipeline{
         HELM_REPO_URL = "gs://helmrepo/myservice"
         DEPLOYMENT_NAME = "my-deployment"
         HELM_RELEASE_NAME = "Mysrevice"
-        DOCKER_IMAGE_TAG = 74
+        DOCKER_IMAGE_TAG = 76
 
     }
        
@@ -60,7 +60,7 @@ pipeline{
                 script{
                     sh 'cd ${HELM_CHART_DIR}'
                     // sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
-                sh 'helm install --version ${DOCKER_IMAGE_TAG} helm-${HELM_CHART_DIR} -f  values.taml ${DOCKER_IAMGE_TAG}.tgz'
+                    sh 'helm install --version ${DOCKER_IMAGE_TAG} helm-${HELM_CHART_DIR} -f  values.yaml *.tgz'
                 }
             }
         }
