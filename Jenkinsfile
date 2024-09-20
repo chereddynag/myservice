@@ -44,11 +44,12 @@ pipeline{
             steps{
                 script{
                     sh '''
-                    rm -rf *.tgz
+                    
                     cd ${HELM_CHART_DIR}
+                    rm -rf *.tgz
                     sed -i "s/TAG/$DOCKER_IMAGE_TAG/g" values.yaml
                     helm package .
-                    
+                    mv *.tgz ${DOCKER_IMAGE_TAG}.tgz
                     '''
                     
                 }
@@ -59,7 +60,7 @@ pipeline{
                 script{
                     sh 'cd ${HELM_CHART_DIR}'
                     // sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
-                    sh 'helm install --version $DOCKER_IMAGE_TAG helm-${HELM_CHART_DIR} -f  values.taml $DOCKER_IAMGE_TAG.tgz'
+                sh 'helm install --version ${DOCKER_IMAGE_TAG} helm-${HELM_CHART_DIR} -f  values.taml ${DOCKER_IAMGE_TAG}.tgz'
                 }
             }
         }
@@ -67,7 +68,7 @@ pipeline{
             steps{
                 script{
                     // sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
-                    sh 'gsutil cp $DOCKER_IAMGE_TAG.tgz ${HELM_REPO_URL}'
+                    sh 'gsutil cp ${DOCKER_IAMGE_TAG}.tgz ${HELM_REPO_URL}'
                 }
             }
         }
