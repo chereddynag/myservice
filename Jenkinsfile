@@ -18,20 +18,7 @@ pipeline{
         HELM_RELEASE_NAME = "Mysrevice"
 
     }
-       parameters {
-        choice(
-            name: 'DOCKER_IMAGE',
-            choices: getDockerImages(),
-            description: 'Select a Docker image from the list'
-        )
-    }
-    def getDockerImages(){
-        def images = sh(
-        script: "docker images --format '{{.Repository}}:{{.Tag}}' | grep latest",
-        returnStdout: true
-    ).trim().split('\n')
-    return images
-    }
+       
     stages{
         
         stage("Aauthenticate with GCP"){
