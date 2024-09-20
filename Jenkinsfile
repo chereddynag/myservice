@@ -48,7 +48,7 @@ pipeline{
                     cd ${HELM_CHART_DIR}
                     sed -i "s/TAG/$DOCKER_IMAGE_TAG/g" values.yaml
                     helm package .
-                    mv *.tgz $DOCKER_IAMGE_TAG.tgz
+                    
                     '''
                     
                 }
