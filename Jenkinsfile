@@ -58,7 +58,7 @@ pipeline{
             steps{
                 script{
                     sh 'cd ${HELM_CHART_DIR}'
-                    sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
+                    // sh 'helm repo add ${HELM_REPO_NAME} ${HELM_REPO_URL}'
                     sh 'helm install --version $DOCKER_IMAGE_TAG -f  values.taml $DOCKER_IAMGE_TAG.tgz'
                 }
             }
