@@ -16,7 +16,7 @@ pipeline{
         // HELM_REPO_URL = "gs://helmrepo/myservice"
         DEPLOYMENT_NAME = "my-deployment"
         HELM_RELEASE_NAME = "Mysrevice"
-        DOCKER_IMAGE_TAG = 79
+        DOCKER_IMAGE_TAG = '${env.BUILD_NUMBER}'
 
     }
        
