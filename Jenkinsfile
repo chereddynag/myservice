@@ -7,7 +7,7 @@ pipeline{
         IMAGE_NAME = "${env.JOB_NAME}"
         PROJECT = 'fluted-volt-428205-p7'
         GCR_REGION = "us-west1-docker.pkg.dev"
-        GCR_IMAGE_URI = "${GCR_REGION}/${PROJECT}/chereddy/multi_pipeline/${env.JOB_NAME}:${env.BUILD_NUMBER}"
+        GCR_IMAGE_URI = "${GCR_REGION}/${PROJECT}/chereddy/${env.JOB_NAME}:${env.BUILD_NUMBER}"
         GOOGLE_APPLICATION_CREDENTIALS = credentials('mydevops')
         // GCR_PROJECT_ID = 'fluted-volt-428205-p7'
         CLUSTER_NAME = 'my-k8-cluster'
