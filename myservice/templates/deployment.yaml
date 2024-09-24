@@ -4,8 +4,9 @@ metadata:
   name: {{ include "myservice.fullname" . }}
   labels:
     {{- include "myservice.labels" . | nindent 4 }}
-spec:
   namespace: develop
+spec:
+  
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
