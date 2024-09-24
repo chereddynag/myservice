@@ -34,6 +34,22 @@ pipeline{
             }
             
         }
+        stage('Build docker Image'){
+            steps{
+                script{
+                    sh 'docker build -t ${GCR_IMAGE_URI} .'
+            }
+        }
+        }
+        stage("login and push the image to the docker hub"){
+            steps{
+                script{
+                    
+                    sh 'gcloud auth configure-docker ${GCR_REGION} '
+                    sh 'docker push ${GCR_IMAGE_URI}'
+                    }
+                }
+            }
         // stage("Creating Helm charts"){
         //     steps{
         //         script{
