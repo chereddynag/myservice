@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: us-west1-docker.pkg.dev/fluted-volt-428205-p7/chereddy/myservice
+  repository: us-west1-docker.pkg.dev/fluted-volt-428205-p7/chereddy/multi_pipeline/testing
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: TAG
