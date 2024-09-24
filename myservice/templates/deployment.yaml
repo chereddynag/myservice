@@ -2,10 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "myservice.fullname" . }}
+  namespace: testing
   labels:
     {{- include "myservice.labels" . | nindent 4 }}
 spec:
-  namespace: testing
+  
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
