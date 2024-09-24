@@ -14,6 +14,7 @@ pipeline{
         GKE_ZONE = 'us-west1-a'
         HELM_CHART_DIR = "myservice"
         HELM_REPO_NAME = "devops"
+        GCP_BUCKET = 'gs://helmrepo/myservice'
         // HELM_REPO_URL = "gs://helmrepo/myservice"
         DEPLOYMENT_NAME = "my-deployment"
         HELM_RELEASE_NAME = "Mysrevice"
