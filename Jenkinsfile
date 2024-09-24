@@ -10,7 +10,7 @@ pipeline{
         GCR_IMAGE_URI = "${GCR_REGION}/${PROJECT}/chereddy/${env.JOB_NAME}:${env.BUILD_NUMBER}"
         GOOGLE_APPLICATION_CREDENTIALS = credentials('mydevops')
         // GCR_PROJECT_ID = 'fluted-volt-428205-p7'
-        // GKE_CLUSTER = 'my-k8-cluster'
+        CLUSTER_NAME = 'my-k8-cluster'
         GKE_ZONE = 'us-west1-a'
         HELM_CHART_DIR = "myservice"
         HELM_REPO_NAME = "devops"
